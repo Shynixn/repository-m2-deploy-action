@@ -23,6 +23,7 @@ git clone "https://$githubUserName:$githubAccessToken@github.com/$githubUserName
 mkdir -p $fullFolderPath
 
 # Install the files into the repository
+export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
 mvn install:install-file "-DgroupId=$groupId" "-DartifactId=$artifactId" "-Dversion=$version" "-Dfile=$mainJarFile" -Dpackaging=jar -DgeneratePom=true "-DlocalRepositoryPath=$fullFolderPath" -DcreateChecksum=true
 
 # Push the changes to Github
