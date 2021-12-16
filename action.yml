@@ -1,0 +1,51 @@
+name: 'Repository M2 Deploy'
+description: 'This GitHub action allows using on of your repositories on GitHub as a Maven repository'
+inputs:
+  primary-jar-file:
+    type: string
+    description: 'The jar file which is going to be used as a dependency'
+    required: true
+  group-id:
+    type: string
+    description: 'Maven Group Id. You can choose any group id in the format com.example.username'
+    required: true
+  artifact-id:
+    type: string
+    description: 'Maven Artifact Id. You can choose any artifact id in the format my-artifact-name'
+    required: true
+  version-id:
+    type: string
+    description: 'Version id. You can choose any version id in the format x.x.x'
+    required: true
+  github-token:
+    type: string
+    description: 'Access Token which is being used to push to your Maven repository'
+    required: true
+  github-username:
+    type: string
+    description: 'Owner of the Maven Repository. e.g. Shynixn'
+    required: true
+  github-repository:
+    type: string
+    description: 'Name of the Maven Repository. e.g. m2'
+    required: true
+  repository:
+    type: string
+    description: 'Repository sub path which can be changed to create snapshot repositories or other kind of repositories.'
+    required: false
+    default: 'releases'
+outputs:
+  time: # id of output
+    description: 'The time we greeted you'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.primary-jar-file }}
+    - ${{ inputs.group-id }}
+    - ${{ inputs.artifact-id }}
+    - ${{ inputs.version-id }}
+    - ${{ inputs.github-token }}
+    - ${{ inputs.github-username }}
+    - ${{ inputs.github-repository }}
+    - ${{ inputs.repository }}
