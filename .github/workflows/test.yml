@@ -3,7 +3,7 @@ name: TestDeployment
 on:
   # Triggers the workflow on push or pull request events but only for the master branch
   push:
-    branches: [ main ]  
+    branches: [ main ]
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
@@ -15,16 +15,16 @@ jobs:
       - uses: actions/setup-java@v1
         with:
           java-version: '8'
-          
+
       - name: Build Java Application
         run: |
           cd sample-hello-world
           chmod +x gradlew
           ./gradlew build
           cd ..
-    
+
       - name: Deploy Artifact
-        uses: Shynixn/repository-m2-deploy-action@v1.0.1
+        uses: Shynixn/repository-m2-deploy-action@v1.0.2
         with:
           primary-jar-file: 'sample-hello-world/build/libs/sample-hello-world-1.0.0.jar'
           group-id: 'com.github.shynixn.samplehelloworld'

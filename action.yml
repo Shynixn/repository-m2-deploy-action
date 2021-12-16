@@ -41,7 +41,7 @@ runs:
   using: 'docker'
   image: 'Dockerfile'
   args:
-    - ${{ inputs.primary-jar-file }}
+  #  - ${{ inputs.primary-jar-file }}
     - ${{ inputs.group-id }}
     - ${{ inputs.artifact-id }}
     - ${{ inputs.version-id }}

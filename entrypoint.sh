@@ -1,7 +1,7 @@
 #!/bin/sh -l
 
 # Parameters
-parameterMainJar=$1
+parameterMainJar="/github/workspace/$1"
 groupId=$2
 artifactId=$3
 version=$4
@@ -9,6 +9,9 @@ githubAccessToken=$5
 githubUserName=$6
 githubRepository=$7
 folderPath=$7
+
+ls
+ls /github/workspace
 
 # Rename jar artifact to maven format
 mainJarFile="$groupId-$artifactId-$version.jar"
