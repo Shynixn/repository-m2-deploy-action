@@ -1,6 +1,6 @@
 # repository-m2-deploy-action
 
-This GitHub action allows using on of your repositories on GitHub as a maven repository.
+This GitHub action turns one of your repositories on GitHub into a fully working maven repository.
 
 ### Disclaimer
 
