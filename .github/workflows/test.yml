@@ -29,7 +29,7 @@ jobs:
           primary-jar-file: 'sample-hello-world/build/libs/sample-hello-world-1.0.0.jar'
           group-id: 'com.github.shynixn.samplehelloworld'
           artifact-id: 'sample-hello-world'
-          version-id: '1.0.$GITHUB_RUN_NUMBER'
+          version-id: 1.0.${{ env.RELEASE_VERSION }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
           github-username: 'Shynixn'
           github-repository: 'm2'
