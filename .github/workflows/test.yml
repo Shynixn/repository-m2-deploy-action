@@ -24,12 +24,23 @@ jobs:
           cd ..
 
       - name: Deploy Artifact
-        uses: Shynixn/repository-m2-deploy-action@v1.0.16
+        uses: Shynixn/repository-m2-deploy-action@v1.1.0
         with:
-          primary-jar-file: 'sample-hello-world/build/libs/sample-hello-world-1.0.0.jar' # The final jar can have any arbitrary name format, the jar file is automatically renamed according to the maven.
+          # Required - Set the relative file path from the repository root to the jar file you want to deploy.
+          # The name does not need to follow any naming convetions, it is automatically renamed according to the maven.
+          primary-jar-file: 'sample-hello-world/build/libs/sample-hello-world-1.0.0.jar'
+          # Required - Set the maven group id.
           group-id: 'com.github.shynixn.samplehelloworld'
+          # Required - Set the maven artifact id.
           artifact-id: 'sample-hello-world'
-          version-id: 1.0.${{ github.run_number }} # We use the provided github run number to automatically create new releases.
-          github-token: ${{ secrets.PERSONAL_ACCESS_TOKEN }} # We need to create a new personal access token and cannot use GITHUB_TOKEN because the GITHUB_TOKEN does not have permissions to post to other private repositories.
+          # Required - Set the maven version id.
+          # Existing releases are simply overwritten if the jar file with this version was already deployed.
+          # You can use the github.run_number environment variable to have automatically incrementing version: 1.0.${{ github.run_number }}
+          version-id: 1.0.${{ github.run_number }}
+          # Required - Used to access another repository of your or another github account to pull and push data from.
+          # We cannot use GITHUB_TOKEN because the GITHUB_TOKEN does not have permissions to post to other private repositories.
+          github-token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          # Required - Owner of the github repository you are using as maven repository.
           github-username: 'Shynixn'
+          # Required - Name of the github repository you are using as maven repository.
           github-repository: 'm2'
