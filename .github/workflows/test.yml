@@ -29,7 +29,7 @@ jobs:
           primary-jar-file: 'sample-hello-world/build/libs/sample-hello-world-1.0.0.jar' # The final jar can have any arbitrary name format, the jar file is automatically renamed according to the maven.
           group-id: 'com.github.shynixn.samplehelloworld'
           artifact-id: 'sample-hello-world'
-          version-id: 1.0.${{ env.GITHUB_RUN_NUMBER }} # We use the provided github run number to automatically create new releases.
+          version-id: 1.0.$GITHUB_RUN_NUMBER # We use the provided github run number to automatically create new releases.
           github-token: ${{ secrets.PERSONAL_ACCESS_TOKEN }} # We need to create a new personal access token and cannot use GITHUB_TOKEN because the GITHUB_TOKEN does not have permissions to post to other private repositories.
           github-username: 'Shynixn'
           github-repository: 'm2'
