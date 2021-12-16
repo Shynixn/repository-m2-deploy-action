@@ -24,7 +24,7 @@ jobs:
           cd ..
 
       - name: Deploy Artifact
-        uses: Shynixn/repository-m2-deploy-action@v1.0.3
+        uses: Shynixn/repository-m2-deploy-action@v1.0.4
         with:
           primary-jar-file: 'sample-hello-world/build/libs/sample-hello-world-1.0.0.jar'
           group-id: 'com.github.shynixn.samplehelloworld'
