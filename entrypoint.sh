@@ -10,19 +10,12 @@ githubUserName=$6
 githubRepository=$7
 folderPath=$7
 
-ls
-
 # Rename jar artifact to maven format
 mainJarFile="$groupId-$artifactId-$version.jar"
 mv $parameterMainJar $mainJarFile
 
 # Generate full folder path
 fullFolderPath=master/docs/repository/$folderPath
-
-echo "Data:"
-echo $githubUserName
-echo $githubAccessToken
-echo "https://$githubUserName:$githubAccessToken@github.com/$githubUserName/$githubRepository.git"
 
 # Setup the repository
 git config --global user.email "repository-m2-deployment-agent@email.com" && git config --global user.name "Repository M2 Deployment Agent"
