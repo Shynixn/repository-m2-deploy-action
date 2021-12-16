@@ -8,5 +8,4 @@ RUN apt-get install git -y
 
 COPY entrypoint.sh entrypoint.sh
 
-ENTRYPOINT ["/tmp/entrypoint.sh"]
-RUN ["chmod", "+x", "/tmp/entrypoint.sh"]
+ENTRYPOINT ["entrypoint.sh"]
