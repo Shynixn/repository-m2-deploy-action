@@ -10,6 +10,7 @@ This GitHub action turns one of your repositories on GitHub into a fully working
 
 * The ``sample-hello-world`` application is deployed to the github pages site of my private github repository
   called ``m2``.
+* After adding the repository url, it can be used like any other dependency. 
 
 ```kotlin
 repositories {
