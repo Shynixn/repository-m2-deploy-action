@@ -7,6 +7,7 @@ RUN apt-get install maven -y
 RUN apt-get install git -y
 
 COPY entrypoint.sh entrypoint.sh
+RUN chmod +x entrypoint.sh
 
 ENTRYPOINT ["/tmp/entrypoint.sh"]
 #CMD ["sh","-c","/bin/bash"]
