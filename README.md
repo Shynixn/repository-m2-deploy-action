@@ -89,7 +89,9 @@ dependencies {
 }
 ```
 
-###
+## Advanced Configuration
+
+TODO: // Implement signing, javadocs and more parameters.
 
 
 
