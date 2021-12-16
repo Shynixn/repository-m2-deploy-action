@@ -9,6 +9,6 @@ RUN apt-get install openjdk-11-jdk -y
 
 COPY entrypoint.sh entrypoint.sh
 RUN chmod +x entrypoint.sh
-RUN export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+RUN export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
 
 ENTRYPOINT ["./entrypoint.sh"]
