@@ -120,7 +120,7 @@ with:
 #### Generating a public key
 
 1. Download GnuPG from https//www.gnupg.org/download/
-2. Generate a new key gpg --gen-key
+2. Generate a new key ``gpg --gen-key``
 3. Display your key ``gpg --list-keys``
 4. Publish your public key to official key servers (parameter yourPulicKey looks similar to BEF88AF6D2A36D3D64EB471460D083CF7EE3A581)
 
@@ -137,8 +137,8 @@ gpg --output secret-key.txt --armor --export-secret-key
 ```
 
 2. Encode the text of the file into a single base64 string without any line breaks
-3. Copy this string and store it in your repository secrets with key SIGNING_KEY.
-4. Store the password of your private key in your repository secrets with key SIGNING_PASSWORD.
+3. Copy this string and store it in your repository secrets with key ``SIGNING_KEY``.
+4. Store the password of your private key in your repository secrets with key ``SIGNING_PASSWORD``.
 
 
 
