@@ -93,7 +93,7 @@ dependencies {
 ## Advanced Configuration
 
 ```yaml
-uses: Shynixn/repository-m2-deploy-action@v1.1.0
+uses: Shynixn/repository-m2-deploy-action@v1.1.2
 with:
   # Required - Set the relative file path from the repository root to the jar file you want to deploy. 
   # The name does not need to follow any naming convetions, it is automatically renamed according to the maven.
@@ -113,6 +113,10 @@ with:
   github-username: 'Shynixn'
   # Required - Name of the github repository you are using as maven repository.
   github-repository: 'm2'
+  # Optional - Base64 Encoded Ascii armored version of the secret key.
+  signing-key: ${{ secrets.SIGNING_KEY }}
+  # Optional - Password of the secret key.
+  signing-password: ${{ secrets.SIGNING_PASSWORD }}
 ```
 
 ### Signing
