@@ -24,7 +24,7 @@ jobs:
           cd ..
 
       - name: Deploy Artifact
-        uses: Shynixn/repository-m2-deploy-action@v0.0.3
+        uses: Shynixn/repository-m2-deploy-action@v0.0.4
         with:
           # Required - Set the relative file path from the repository root to the jar file you want to deploy.
           # The name does not need to follow any naming convetions, it is automatically renamed according to the maven.
