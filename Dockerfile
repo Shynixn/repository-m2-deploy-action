@@ -13,3 +13,4 @@ RUN chmod +x entrypoint.sh
 RUN unset JAVA_HOME
 
 ENTRYPOINT ["./entrypoint.sh"]
+#CMD ["sh","-c","/bin/bash"]

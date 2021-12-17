@@ -30,8 +30,8 @@ mvn install:install-file "-DgroupId=$groupId" "-DartifactId=$artifactId" "-Dvers
 
 # Optional Signing
 if [ -n "$signingKey" ]; then
-  signingKey=$(echo "$signingKey" | base64 --decode)
-  echo $signingKey > secret.asc
+  echo $signingKey > raw.txt
+  base64 --decode raw.txt > secret.asc
   installFolder=$fullFolderPath/$(echo "$groupId" | sed -e "s~\.~/~g")/$artifactId/$version
   echo $installFolder
   gpg --batch --import --armor secret.asc
@@ -43,5 +43,5 @@ fi
 cd master
 git add --all
 git commit --message "Deployment of artifact '$mainJarFile'."
-git push --quiet "https://$githubUserName:$githubAccessToken@github.com/$githubUserName/$githubRepository.git" HEAD:main
+#git push --quiet "https://$githubUserName:$githubAccessToken@github.com/$githubUserName/$githubRepository.git" HEAD:main
 echo "Deployed artifact '$mainJarFile'."
