@@ -34,6 +34,14 @@ inputs:
     description: 'Repository sub path which can be changed to create snapshot repositories or other kind of repositories.'
     required: false
     default: 'releases'
+  signing-key:
+    type: string
+    description: 'Base64Encoded secret key for signing.'
+    required: false
+  signing-password:
+    type: string
+    description: 'Password to use the key.'
+    required: false
 outputs:
   time: # id of output
     description: 'The time we greeted you'
@@ -49,3 +57,5 @@ runs:
     - ${{ inputs.github-username }}
     - ${{ inputs.github-repository }}
     - ${{ inputs.repository }}
+    - ${{ inputs.signing-key }}
+    - ${{ inputs.signing-password }}
