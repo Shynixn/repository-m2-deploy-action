@@ -92,6 +92,55 @@ dependencies {
 
 ## Advanced Configuration
 
+```yaml
+uses: Shynixn/repository-m2-deploy-action@v1.1.0
+with:
+  # Required - Set the relative file path from the repository root to the jar file you want to deploy. 
+  # The name does not need to follow any naming convetions, it is automatically renamed according to the maven.
+  primary-jar-file: 'sample-hello-world/build/libs/sample-hello-world-1.0.0.jar'
+  # Required - Set the maven group id.
+  group-id: 'com.github.shynixn.samplehelloworld'
+  # Required - Set the maven artifact id.
+  artifact-id: 'sample-hello-world'
+  # Required - Set the maven version id.
+  # Existing releases are simply overwritten if the jar file with this version was already deployed. 
+  # You can use the github.run_number environment variable to have automatically incrementing version: 1.0.${{ github.run_number }} 
+  version-id: 1.0.0
+  # Required - Used to access another repository of your or another github account to pull and push data from.
+  # We cannot use GITHUB_TOKEN because the GITHUB_TOKEN does not have permissions to post to other private repositories. 
+  github-token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+  # Required - Owner of the github repository you are using as maven repository. 
+  github-username: 'Shynixn'
+  # Required - Name of the github repository you are using as maven repository.
+  github-repository: 'm2'
+```
+
+### Signing
+
+#### Generating a public key
+
+1. Download GnuPG from https//www.gnupg.org/download/
+2. Generate a new key gpg --gen-key
+3. Display your key ``gpg --list-keys``
+4. Publish your public key to official key servers (parameter yourPulicKey looks similar to BEF88AF6D2A36D3D64EB471460D083CF7EE3A581)
+
+```shell
+gpg --keyserver keyserver.ubuntu.com --send-keys <yourPublicKey>
+```
+
+#### Signing files
+
+1. Export the private key to a file
+
+```shell
+gpg --output secret-key.txt --armor --export-secret-key
+```
+
+2. Copy the text of the ``secret-key.txt`` and store it in your repository secrets with key SIGNING_KEY.
+3. Store the password of your private key in your repository secrets with key SIGNING_PASSWORD.
+
+
+
 TODO: // Implement signing, javadocs and more parameters.
 
 

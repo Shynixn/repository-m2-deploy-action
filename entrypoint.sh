@@ -30,6 +30,7 @@ mvn install:install-file "-DgroupId=$groupId" "-DartifactId=$artifactId" "-Dvers
 
 # Optional Signing
 if [ -n "$signingKey" ]; then
+  $signingKey=$($signingKey| base64 --decode)
   echo $signingKey > secret.asc
   installFolder=$fullFolderPath/$(echo "$groupId" | sed -e "s~\.~/~g")/$artifactId/$version
   echo $installFolder
