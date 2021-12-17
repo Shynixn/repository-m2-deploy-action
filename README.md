@@ -136,8 +136,9 @@ gpg --keyserver keyserver.ubuntu.com --send-keys <yourPublicKey>
 gpg --output secret-key.txt --armor --export-secret-key
 ```
 
-2. Copy the text of the ``secret-key.txt`` and store it in your repository secrets with key SIGNING_KEY.
-3. Store the password of your private key in your repository secrets with key SIGNING_PASSWORD.
+2. Encode the text of the file into a single base64 string without any line breaks
+3. Copy this string and store it in your repository secrets with key SIGNING_KEY.
+4. Store the password of your private key in your repository secrets with key SIGNING_PASSWORD.
 
 
 
