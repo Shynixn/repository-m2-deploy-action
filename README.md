@@ -93,7 +93,7 @@ dependencies {
 ## Advanced Configuration
 
 ```yaml
-uses: Shynixn/repository-m2-deploy-action@v1.1.2
+uses: Shynixn/repository-m2-deploy-action@v1.2.0
 with:
   # Required - Set the relative file path from the repository root to the jar file you want to deploy. 
   # The name does not need to follow any naming convetions, it is automatically renamed according to the maven.
@@ -121,7 +121,7 @@ with:
   source-directories: 'sample-hello-world/src/main/java'
   # Optional - If true and specifying source directories, a javadocs jar file containing kotlin docs gets generated.
   generate-kotlin-docs-jar: true
-  # Optional - If true and specifying source directories, a sources  jar file containing source files gets generated.
+  # Optional - If true and specifying source directories, a sources jar file containing source files gets generated.
   generate-sources-jar: true
 ```
 
