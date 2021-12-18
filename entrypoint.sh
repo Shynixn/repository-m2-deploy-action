@@ -44,8 +44,7 @@ fi
 # Optional Sources
 if [ "$sourceJar" = "true" ]; then
   sourcesJarFile="$artifactId-$version-sources.jar"
-  splitContent=$sourceDirs
-  splitContent=${splitContent//;/$'\n'}
+  splitContent=($(echo "$sourceDirs" | tr ';'))
   sourceCommand="jar cvf $sourcesJarFile"
   for word in $splitContent
   do
