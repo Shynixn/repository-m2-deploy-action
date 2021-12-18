@@ -35,6 +35,8 @@ mvn install:install-file "-DgroupId=$groupId" "-DartifactId=$artifactId" "-Dvers
 if [ "$kotlinDocsJar" = "true" ]; then
   mkdir kotlinDocs
   requiredDokkaPlugins="dokka-base.jar;dokka-analysis.jar;kotlin-analysis-compiler.jar;kotlin-analysis-intellij.jar;kotlinx-html-jvm.jar"
+  ls
+  chmod +x dokka-cli.jar
   java -jar dokka-cli.jar -moduleName "$artifactId" -pluginsClasspath $requiredDokkaPlugins -sourceSet "-src $sourceDirs" -outputDir "kotlinDocs"
   javaDocJarFile="$artifactId-$version-javadoc.jar"
   jar cvf "$javaDocJarFile" -C kotlinDocs .
