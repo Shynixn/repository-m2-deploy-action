@@ -1,4 +1,4 @@
-#!/bin/sh -l
+#!/bin/bash
 
 # Parameters
 parameterMainJar=$1
@@ -11,6 +11,9 @@ githubRepository=$7
 folderPath=$8
 signingKey=$9
 signingPassword=$10
+kotlinDocsJar=$11
+sourceDirs=$12
+sourceJar=$13
 
 # Rename jar artifact to maven format
 mainJarFile="$groupId-$artifactId-$version.jar"
@@ -28,12 +31,35 @@ mkdir -p $fullFolderPath
 export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
 mvn install:install-file "-DgroupId=$groupId" "-DartifactId=$artifactId" "-Dversion=$version" "-Dfile=$mainJarFile" -Dpackaging=jar -DgeneratePom=true "-DlocalRepositoryPath=$fullFolderPath" -DcreateChecksum=true
 
+# Optional JavaDocs
+if [ "$kotlinDocsJar" = "true" ]; then
+  mkdir kotlinDocs
+  requiredDokkaPlugins="dokka-base.jar;dokka-analysis.jar;kotlin-analysis-compiler.jar;kotlin-analysis-intellij.jar;kotlinx-html-jvm.jar"
+  java -jar dokka-cli.jar -moduleName "$artifactId" -pluginsClasspath $requiredDokkaPlugins -sourceSet "-src $sourceDirs" -outputDir "kotlinDocs"
+  javaDocJarFile="$artifactId-$version-javadoc.jar"
+  jar cvf "$javaDocJarFile" -C kotlinDocs .
+  mvn install:install-file "-DgroupId=$groupId" "-DartifactId=$artifactId" "-Dversion=$version" "-Dfile=$javaDocJarFile" -Dpackaging=jar -DgeneratePom=true "-DlocalRepositoryPath=$fullFolderPath" -DcreateChecksum=true -Dclassifier=javadoc
+fi
+
+# Optional Sources
+if [ "$sourceJar" = "true" ]; then
+  sourcesJarFile="$artifactId-$version-sources.jar"
+  splitContent=$sourceDirs
+  splitContent=${splitContent//;/$'\n'}
+  sourceCommand="jar cvf $sourcesJarFile"
+  for word in $splitContent
+  do
+      sourceCommand="$sourceCommand -C $word ."
+  done
+  eval  $"( "${sourceCommand}" )"
+  mvn install:install-file "-DgroupId=$groupId" "-DartifactId=$artifactId" "-Dversion=$version" "-Dfile=$sourcesJarFile" -Dpackaging=jar -DgeneratePom=true "-DlocalRepositoryPath=$fullFolderPath" -DcreateChecksum=true -Dclassifier=sources
+fi
+
 # Optional Signing
 if [ -n "$signingKey" ]; then
   echo $signingKey > raw.txt
   base64 --decode raw.txt > secret.asc
   installFolder=$fullFolderPath/$(echo "$groupId" | sed -e "s~\.~/~g")/$artifactId/$version
-  echo $installFolder
   gpg --batch --import --armor secret.asc
   gpg --list-keys
   find $installFolder -maxdepth 100 -not -name "*.asc" -type f -exec sh -c 'echo $1 | gpg -ab --batch --yes --passphrase-fd 0 --pinentry-mode loopback $0 && echo Signed $0.' {} $signingPassword ';'

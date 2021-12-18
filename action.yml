@@ -42,6 +42,18 @@ inputs:
     type: string
     description: 'Password to use the key.'
     required: false
+  generate-kotlin-docs-jar:
+    type: boolean
+    description: 'If set to true, KotlinDocs are going to be generated as a -javadoc file.'
+    required: false
+  source-directories:
+    type: string
+    description: 'Directories separated by ; where the java or kotlin files are located.'
+    required: false
+  generate-sources-jar:
+    type: boolean
+    description: 'If set to true, Sources are going to be generated as a -sources file.'
+    required: false
 outputs:
   time: # id of output
     description: 'The time we greeted you'
@@ -59,3 +71,6 @@ runs:
     - ${{ inputs.repository }}
     - ${{ inputs.signing-key }}
     - ${{ inputs.signing-password }}
+    - ${{ inputs.generate-kotlin-docs-jar }}
+    - ${{ inputs.source-directories}}
+    - ${{ inputs.generate-sources-jar }}

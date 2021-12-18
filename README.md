@@ -117,6 +117,12 @@ with:
   signing-key: ${{ secrets.SIGNING_KEY }}
   # Optional - Password of the secret key.
   signing-password: ${{ secrets.SIGNING_PASSWORD }}
+  # Optional - Directories containing java or kotlin source files. Separated by ; to specify multiple directories.
+  source-directories: 'sample-hello-world/src/main/java'
+  # Optional - If true and specifying source directories, a javadocs jar file containing kotlin docs gets generated.
+  generate-kotlin-docs-jar: true
+  # Optional - If true and specifying source directories, a sources  jar file containing source files gets generated.
+  generate-sources-jar: true
 ```
 
 ### Signing
@@ -143,11 +149,6 @@ gpg --output secret-key.txt --armor --export-secret-key
 2. Encode the text of the file into a single base64 string without any line breaks
 3. Copy this string and store it in your repository secrets with key ``SIGNING_KEY``.
 4. Store the password of your private key in your repository secrets with key ``SIGNING_PASSWORD``.
-
-
-
-TODO: // Implement signing, javadocs and more parameters.
-
 
 
 
