@@ -15,6 +15,7 @@ RUN wget https://repo1.maven.org/maven2/org/jetbrains/dokka/dokka-analysis/1.5.3
 RUN wget https://repo1.maven.org/maven2/org/jetbrains/dokka/kotlin-analysis-compiler/1.5.31/kotlin-analysis-compiler-1.5.31.jar -O kotlin-analysis-compiler.jar
 RUN wget https://repo1.maven.org/maven2/org/jetbrains/dokka/kotlin-analysis-intellij/1.5.31/kotlin-analysis-intellij-1.5.31.jar -O kotlin-analysis-intellij.jar
 RUN wget https://repo1.maven.org/maven2/org/jetbrains/kotlinx/kotlinx-html-jvm/0.7.3/kotlinx-html-jvm-0.7.3.jar -O kotlinx-html-jvm.jar
+RUN chmod +x dokka-cli.jar
 
 COPY entrypoint.sh entrypoint.sh
 RUN chmod +x entrypoint.sh
