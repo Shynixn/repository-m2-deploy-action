@@ -11,9 +11,9 @@ githubRepository=$7
 folderPath=$8
 signingKey=$9
 signingPassword=$10
-kotlinDocsJar=$11
+kotlinDocsJar="$11"
 sourceDirs=$12
-sourceJar=$13
+sourceJar="$13"
 
 # Rename jar artifact to maven format
 mainJarFile="$groupId-$artifactId-$version.jar"
