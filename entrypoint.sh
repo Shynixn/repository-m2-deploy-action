@@ -15,6 +15,12 @@ kotlinDocsJar="$11"
 sourceDirs=$12
 sourceJar="$13"
 
+echo "Here"
+ls
+cd /app
+ls
+echo "Attemp"
+
 # Rename jar artifact to maven format
 mainJarFile="$groupId-$artifactId-$version.jar"
 mv $parameterMainJar $mainJarFile
@@ -74,5 +80,5 @@ fi
 cd master
 git add --all
 git commit --message "Deployment of artifact '$mainJarFile'."
-git push --quiet "https://$githubUserName:$githubAccessToken@github.com/$githubUserName/$githubRepository.git" HEAD:main
+#git push --quiet "https://$githubUserName:$githubAccessToken@github.com/$githubUserName/$githubRepository.git" HEAD:main
 echo "Deployed artifact '$mainJarFile'."
