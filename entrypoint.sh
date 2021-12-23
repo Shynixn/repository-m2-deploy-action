@@ -46,11 +46,15 @@ fi
 # Optional Sources
 if [ "$sourceJar" = "true" ]; then
   sourcesJarFile="$artifactId-$version-sources.jar"
-  splitContent=$(echo "$sourceDirs" | tr ';')
   sourceCommand="jar cvf $sourcesJarFile"
-  for word in $splitContent
-  do
-      sourceCommand="$sourceCommand -C $word ."
+  IN=$sourceDirs
+  while [ "$IN" != "$iter" ] ;do
+      # extract the substring from start of string up to delimiter.
+      iter=${IN%%;*}
+      # delete this first "element" AND next separator, from $IN.
+      IN="${IN#$iter;}"
+      # Print (or doing anything with) the first "element".
+      sourceCommand="$sourceCommand -C $iter ."
   done
   eval  $"( "${sourceCommand}" )"
   mvn install:install-file "-DgroupId=$groupId" "-DartifactId=$artifactId" "-Dversion=$version" "-Dfile=$sourcesJarFile" -Dpackaging=jar -DgeneratePom=true "-DlocalRepositoryPath=$fullFolderPath" -DcreateChecksum=true -Dclassifier=sources
