@@ -80,5 +80,5 @@ fi
 cd master
 git add --all
 git commit --message "Deployment of artifact '$mainJarFile'."
-#git push --quiet "https://$githubUserName:$githubAccessToken@github.com/$githubUserName/$githubRepository.git" HEAD:main
+git push --quiet "https://$githubUserName:$githubAccessToken@github.com/$githubUserName/$githubRepository.git" HEAD:main
 echo "Deployed artifact '$mainJarFile'."
