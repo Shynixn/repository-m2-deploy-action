@@ -15,12 +15,6 @@ kotlinDocsJar="$11"
 sourceDirs=$12
 sourceJar="$13"
 
-echo "Here"
-ls
-cd /app
-ls
-echo "Attemp"
-
 # Rename jar artifact to maven format
 mainJarFile="$groupId-$artifactId-$version.jar"
 mv $parameterMainJar $mainJarFile
@@ -39,6 +33,12 @@ mvn install:install-file "-DgroupId=$groupId" "-DartifactId=$artifactId" "-Dvers
 
 # Optional JavaDocs
 if [ "$kotlinDocsJar" = "true" ]; then
+  wget https://repo1.maven.org/maven2/org/jetbrains/dokka/dokka-cli/1.5.31/dokka-cli-1.5.31.jar -O /app/dokka-cli.jar
+  wget https://repo1.maven.org/maven2/org/jetbrains/dokka/dokka-base/1.5.31/dokka-base-1.5.31.jar -O dokka-base.jar
+  wget https://repo1.maven.org/maven2/org/jetbrains/dokka/dokka-analysis/1.5.31/dokka-analysis-1.5.31.jar -O dokka-analysis.jar
+  wget https://repo1.maven.org/maven2/org/jetbrains/dokka/kotlin-analysis-compiler/1.5.31/kotlin-analysis-compiler-1.5.31.jar -O kotlin-analysis-compiler.jar
+  wget https://repo1.maven.org/maven2/org/jetbrains/dokka/kotlin-analysis-intellij/1.5.31/kotlin-analysis-intellij-1.5.31.jar -O kotlin-analysis-intellij.jar
+  wget https://repo1.maven.org/maven2/org/jetbrains/kotlinx/kotlinx-html-jvm/0.7.3/kotlinx-html-jvm-0.7.3.jar -O kotlinx-html-jvm.jar
   mkdir kotlinDocs
   requiredDokkaPlugins="dokka-base.jar;dokka-analysis.jar;kotlin-analysis-compiler.jar;kotlin-analysis-intellij.jar;kotlinx-html-jvm.jar"
   ls
