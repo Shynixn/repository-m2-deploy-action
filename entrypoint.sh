@@ -48,6 +48,7 @@ echo "  <modelVersion>4.0.0</modelVersion>" >> pom.xml
 echo "  <groupId>$groupId</groupId>" >> pom.xml
 echo "  <artifactId>sample-hello-world</artifactId>" >> pom.xml
 echo "  <version>$version</version>" >> pom.xml
+echo "  <name>$projectName</name>" >> pom.xml
 echo "  <description>$projectDescription</description>" >> pom.xml
 echo "  <url>$projectUrl</url>" >> pom.xml
 echo "  <licenses>" >> pom.xml
