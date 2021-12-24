@@ -36,10 +36,6 @@ git config --global user.email "repository-m2-deployment-agent@email.com" && git
 git clone "https://$githubUserName:$githubAccessToken@github.com/$githubUserName/$githubRepository.git" master
 mkdir -p $fullFolderPath
 
-# Install the files into the repository
-export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
-mvn install:install-file "-DgroupId=$groupId" "-DartifactId=$artifactId" "-Dversion=$version" "-Dfile=$mainJarFile" -Dpackaging=jar -DgeneratePom=true "-DlocalRepositoryPath=$fullFolderPath" -DcreateChecksum=true
-
 # Generate pom.xml
 echo '<?xml version="1.0" encoding="UTF-8"?>' > pom.xml
 echo '<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"' >> pom.xml
@@ -70,6 +66,10 @@ echo "    <url>$scmUrl</url>" >> pom.xml
 echo "  </scm>" >> pom.xml
 echo "</project>" >> pom.xml
 
+# Install the files into the repository
+export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+mvn install:install-file "-DgroupId=$groupId" "-DartifactId=$artifactId" "-Dversion=$version" "-Dfile=$mainJarFile" -Dpackaging=jar -DpomFile=pom.xml "-DlocalRepositoryPath=$fullFolderPath" -DcreateChecksum=true
+
 # Optional JavaDocs
 if [ "$kotlinDocsJar" = "true" ]; then
   wget https://repo1.maven.org/maven2/org/jetbrains/dokka/dokka-cli/1.5.31/dokka-cli-1.5.31.jar -O dokka-cli.jar
@@ -85,7 +85,7 @@ if [ "$kotlinDocsJar" = "true" ]; then
   java -jar dokka-cli.jar -moduleName "$artifactId" -pluginsClasspath $requiredDokkaPlugins -sourceSet "-src $sourceDirs" -outputDir "kotlinDocs"
   javaDocJarFile="$artifactId-$version-javadoc.jar"
   jar cvf "$javaDocJarFile" -C kotlinDocs .
-  mvn install:install-file "-DgroupId=$groupId" "-DartifactId=$artifactId" "-Dversion=$version" "-Dfile=$javaDocJarFile" -Dpackaging=jar -DgeneratePom=true "-DlocalRepositoryPath=$fullFolderPath" -DcreateChecksum=true -Dclassifier=javadoc
+  mvn install:install-file "-DgroupId=$groupId" "-DartifactId=$artifactId" "-Dversion=$version" "-Dfile=$javaDocJarFile" -Dpackaging=jar -DpomFile=pom.xml "-DlocalRepositoryPath=$fullFolderPath" -DcreateChecksum=true -Dclassifier=javadoc
 fi
 
 # Optional Sources
