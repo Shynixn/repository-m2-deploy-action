@@ -54,3 +54,21 @@ jobs:
           generate-kotlin-docs-jar: true
           # Optional - If true and specifying source directories, a sources jar file containing source files gets generated.
           generate-sources-jar: true
+          # Optional - Value for pom.xml.
+          project-name: 'Sample HelloWorld'
+          # Optional - Value for pom.xml.
+          project-description: 'This is an example project for the github action repository-m2-deploy-action.'
+          # Optional - Value for pom.xml
+          project-url: 'https://github.com/Shynixn/repository-m2-deploy-action'
+          # Optional - Value for pom.xml
+          licence-name: 'MIT License'
+          # Optional - Value for pom.xml
+          licence-url: 'http://www.opensource.org/licenses/mit-license.php'
+          # Optional - Value for pom.xml
+          developer-name: 'Shynixn'
+          # Optional - Value for pom.xml
+          developer-url: 'https://github.com/Shynixn'
+          # Optional - Value for pom.xml
+          scm-connection: 'scm:git:git://github.com/Shynixn/repository-m2-deploy-action.git'
+          # Optional - Value for pom.xml
+          scm-url: 'http://github.com/Shynixn/repository-m2-deploy-action.git/tree/main'

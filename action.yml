@@ -54,9 +54,51 @@ inputs:
     type: boolean
     description: 'If set to true, Sources are going to be generated as a -sources file.'
     required: false
-outputs:
-  time: # id of output
-    description: 'The time we greeted you'
+  project-name:
+    type: string
+    description: 'Maven project name.'
+    required: false
+    default: 'POM value was automatically generated.'
+  project-description:
+    type: string
+    description: 'Maven project description.'
+    required: false
+    default: 'POM value was automatically generated.'
+  project-url:
+    type: string
+    description: 'Maven project url.'
+    required: false
+    default: 'POM value was automatically generated.'
+  licence-name:
+    type: string
+    description: 'Maven licence name.'
+    required: false
+    default: 'POM value was automatically generated.'
+  licence-url:
+    type: string
+    description: 'Maven licence url.'
+    required: false
+    default: 'POM value was automatically generated.'
+  developer-name:
+    type: string
+    description: 'Maven developer name.'
+    required: false
+    default: 'POM value was automatically generated.'
+  developer-url:
+    type: string
+    description: 'Maven developer url.'
+    required: false
+    default: 'POM value was automatically generated.'
+  scm-connection:
+    type: string
+    description: 'Maven scm connection.'
+    required: false
+    default: 'POM value was automatically generated.'
+  scm-url:
+    type: string
+    description: 'Maven scm url.'
+    required: false
+    default: 'POM value was automatically generated.'
 runs:
   using: 'docker'
   image: 'Dockerfile'
@@ -74,3 +116,12 @@ runs:
     - ${{ inputs.generate-kotlin-docs-jar }}
     - ${{ inputs.source-directories}}
     - ${{ inputs.generate-sources-jar }}
+    - ${{ inputs.project-name }}
+    - ${{ inputs.project-description }}
+    - ${{ inputs.project-url }}
+    - ${{ inputs.licence-name }}
+    - ${{ inputs.licence-url }}
+    - ${{ inputs.developer-name }}
+    - ${{ inputs.developer-url }}
+    - ${{ inputs.scm-connection }}
+    - ${{ inputs.scm-url }}

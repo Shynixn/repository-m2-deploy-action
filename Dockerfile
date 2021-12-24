@@ -7,7 +7,7 @@ RUN apt-get install maven -y
 RUN apt-get install git -y
 RUN apt-get install openjdk-11-jdk -y
 RUN apt-get install gnupg -y
-RUN apt-get install wget -
+RUN apt-get install wget -y
 
 COPY entrypoint.sh entrypoint.sh
 RUN chmod +x entrypoint.sh

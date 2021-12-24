@@ -14,6 +14,15 @@ signingPassword=$10
 kotlinDocsJar="$11"
 sourceDirs=$12
 sourceJar="$13"
+projectName=$14
+projectDescription=$15
+projectUrl=$16
+licenceName=$17
+licenceUrl=$18
+developerName=$19
+developerUrl=$20
+scmConnection=$21
+scmUrl=$22
 
 # Rename jar artifact to maven format
 mainJarFile="$groupId-$artifactId-$version.jar"
@@ -30,6 +39,35 @@ mkdir -p $fullFolderPath
 # Install the files into the repository
 export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
 mvn install:install-file "-DgroupId=$groupId" "-DartifactId=$artifactId" "-Dversion=$version" "-Dfile=$mainJarFile" -Dpackaging=jar -DgeneratePom=true "-DlocalRepositoryPath=$fullFolderPath" -DcreateChecksum=true
+
+# Generate pom.xml
+echo '<?xml version="1.0" encoding="UTF-8"?>' > pom.xml
+echo '<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"' >> pom.xml
+echo '    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">' >> pom.xml
+echo "  <modelVersion>4.0.0</modelVersion>" >> pom.xml
+echo "  <groupId>$groupId</groupId>" >> pom.xml
+echo "  <artifactId>sample-hello-world</artifactId>" >> pom.xml
+echo "  <version>$version</version>" >> pom.xml
+echo "  <description>$projectDescription</description>" >> pom.xml
+echo "  <url>$projectUrl</url>" >> pom.xml
+echo "  <licenses>" >> pom.xml
+echo "    <license>" >> pom.xml
+echo "      <name>$licenceName</name>" >> pom.xml
+echo "      <url>$licenceUrl</url>" >> pom.xml
+echo "    </license>" >> pom.xml
+echo "  </licenses>" >> pom.xml
+echo "  <developers>" >> pom.xml
+echo "    <developer>" >> pom.xml
+echo "      <name>$developerName</name>" >> pom.xml
+echo "      <url>$developerUrl</url>" >> pom.xml
+echo "    </developer>" >> pom.xml
+echo "  </developers>" >> pom.xml
+echo "  <scm>" >> pom.xml
+echo "    <connection>$scmConnection</connection>" >> pom.xml
+echo "    <developerConnection>$scmConnection</developerConnection>" >> pom.xml
+echo "    <url>$scmUrl</url>" >> pom.xml
+echo "  </scm>" >> pom.xml
+echo "</project>" >> pom.xml
 
 # Optional JavaDocs
 if [ "$kotlinDocsJar" = "true" ]; then
@@ -63,7 +101,7 @@ if [ "$sourceJar" = "true" ]; then
       sourceCommand="$sourceCommand -C $iter ."
   done
   eval  $"( "${sourceCommand}" )"
-  mvn install:install-file "-DgroupId=$groupId" "-DartifactId=$artifactId" "-Dversion=$version" "-Dfile=$sourcesJarFile" -Dpackaging=jar -DgeneratePom=true "-DlocalRepositoryPath=$fullFolderPath" -DcreateChecksum=true -Dclassifier=sources
+  mvn install:install-file "-DgroupId=$groupId" "-DartifactId=$artifactId" "-Dversion=$version" "-Dfile=$sourcesJarFile" -Dpackaging=jar -DpomFile=pom.xml "-DlocalRepositoryPath=$fullFolderPath" -DcreateChecksum=true -Dclassifier=sources
 fi
 
 # Optional Signing
