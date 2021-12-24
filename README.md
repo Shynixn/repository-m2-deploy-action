@@ -93,7 +93,7 @@ dependencies {
 ## Advanced Configuration
 
 ```yaml
-uses: Shynixn/repository-m2-deploy-action@v1.2.0
+uses: Shynixn/repository-m2-deploy-action@v1.3.0
 with:
   # Required - Set the relative file path from the repository root to the jar file you want to deploy. 
   # The name does not need to follow any naming convetions, it is automatically renamed according to the maven.
