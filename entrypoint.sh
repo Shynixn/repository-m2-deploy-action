@@ -68,7 +68,7 @@ echo "</project>" >> pom.xml
 
 # Install the files into the repository
 export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
-mvn install:install-file "-DgroupId=$groupId" "-DartifactId=$artifactId" "-Dversion=$version" "-Dfile=$mainJarFile" -Dpackaging=jar -DpomFile=pom.xml "-DlocalRepositoryPath=$fullFolderPath" -DcreateChecksum=true
+mvn install:install-file "-DgroupId=$groupId" "-DartifactId=$artifactId" "-Dversion=$version" "-Dfile=$mainJarFile" -Dpackaging=jar "-DlocalRepositoryPath=$fullFolderPath" -DgeneratePom=false -DpomFile=pom.xml -DcreateChecksum=true
 
 # Optional JavaDocs
 if [ "$kotlinDocsJar" = "true" ]; then
@@ -85,7 +85,7 @@ if [ "$kotlinDocsJar" = "true" ]; then
   java -jar dokka-cli.jar -moduleName "$artifactId" -pluginsClasspath $requiredDokkaPlugins -sourceSet "-src $sourceDirs" -outputDir "kotlinDocs"
   javaDocJarFile="$artifactId-$version-javadoc.jar"
   jar cvf "$javaDocJarFile" -C kotlinDocs .
-  mvn install:install-file "-DgroupId=$groupId" "-DartifactId=$artifactId" "-Dversion=$version" "-Dfile=$javaDocJarFile" -Dpackaging=jar "-DlocalRepositoryPath=$fullFolderPath" -DcreateChecksum=true -Dclassifier=javadoc
+  mvn install:install-file "-DgroupId=$groupId" "-DartifactId=$artifactId" "-Dversion=$version" "-Dfile=$javaDocJarFile" -Dpackaging=jar "-DlocalRepositoryPath=$fullFolderPath" -DgeneratePom=false -DcreateChecksum=true -Dclassifier=javadoc
 fi
 
 # Optional Sources
@@ -102,7 +102,7 @@ if [ "$sourceJar" = "true" ]; then
       sourceCommand="$sourceCommand -C $iter ."
   done
   eval  $"( "${sourceCommand}" )"
-  mvn install:install-file "-DgroupId=$groupId" "-DartifactId=$artifactId" "-Dversion=$version" "-Dfile=$sourcesJarFile" -Dpackaging=jar "-DlocalRepositoryPath=$fullFolderPath" -DcreateChecksum=true -Dclassifier=sources
+  mvn install:install-file "-DgroupId=$groupId" "-DartifactId=$artifactId" "-Dversion=$version" "-Dfile=$sourcesJarFile" -Dpackaging=jar "-DlocalRepositoryPath=$fullFolderPath" -DgeneratePom=false -DcreateChecksum=true -Dclassifier=sources
 fi
 
 # Optional Signing
