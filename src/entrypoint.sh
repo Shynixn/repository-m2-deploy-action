@@ -42,7 +42,7 @@ echo '<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://mave
 echo '    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">' >> pom.xml
 echo "  <modelVersion>4.0.0</modelVersion>" >> pom.xml
 echo "  <groupId>$groupId</groupId>" >> pom.xml
-echo "  <artifactId>sample-hello-world</artifactId>" >> pom.xml
+echo "  <artifactId>$artifactId</artifactId>" >> pom.xml
 echo "  <version>$version</version>" >> pom.xml
 echo "  <name>$projectName</name>" >> pom.xml
 echo "  <description>$projectDescription</description>" >> pom.xml
