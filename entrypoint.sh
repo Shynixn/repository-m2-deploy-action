@@ -30,16 +30,45 @@ mv $parameterMainJar $mainJarFile
 
 # Generate full folder path
 fullFolderPath=master/docs/repository/$folderPath
-artifactFolderPath=$fullFolderPath/$(echo "$groupId" | sed -e "s~\.~/~g")/$artifactId/$version
 
 # Setup the repository
 git config --global user.email "repository-m2-deployment-agent@email.com" && git config --global user.name "Repository M2 Deployment Agent"
 git clone "https://$githubUserName:$githubAccessToken@github.com/$githubUserName/$githubRepository.git" master
-mkdir -p $artifactFolderPath
+mkdir -p $fullFolderPath
+
+# Generate pom.xml
+echo '<?xml version="1.0" encoding="UTF-8"?>' > pom.xml
+echo '<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"' >> pom.xml
+echo '    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">' >> pom.xml
+echo "  <modelVersion>4.0.0</modelVersion>" >> pom.xml
+echo "  <groupId>$groupId</groupId>" >> pom.xml
+echo "  <artifactId>sample-hello-world</artifactId>" >> pom.xml
+echo "  <version>$version</version>" >> pom.xml
+echo "  <name>$projectName</name>" >> pom.xml
+echo "  <description>$projectDescription</description>" >> pom.xml
+echo "  <url>$projectUrl</url>" >> pom.xml
+echo "  <licenses>" >> pom.xml
+echo "    <license>" >> pom.xml
+echo "      <name>$licenceName</name>" >> pom.xml
+echo "      <url>$licenceUrl</url>" >> pom.xml
+echo "    </license>" >> pom.xml
+echo "  </licenses>" >> pom.xml
+echo "  <developers>" >> pom.xml
+echo "    <developer>" >> pom.xml
+echo "      <name>$developerName</name>" >> pom.xml
+echo "      <url>$developerUrl</url>" >> pom.xml
+echo "    </developer>" >> pom.xml
+echo "  </developers>" >> pom.xml
+echo "  <scm>" >> pom.xml
+echo "    <connection>$scmConnection</connection>" >> pom.xml
+echo "    <developerConnection>$scmConnection</developerConnection>" >> pom.xml
+echo "    <url>$scmUrl</url>" >> pom.xml
+echo "  </scm>" >> pom.xml
+echo "</project>" >> pom.xml
 
 # Install the files into the repository
 export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
-mvn install:install-file "-DgroupId=$groupId" "-DartifactId=$artifactId" "-Dversion=$version" "-Dfile=$mainJarFile" -Dpackaging=jar "-DlocalRepositoryPath=$fullFolderPath" -DgeneratePom=false -DcreateChecksum=true
+mvn install:install-file "-DgroupId=$groupId" "-DartifactId=$artifactId" "-Dversion=$version" "-Dfile=$mainJarFile" -Dpackaging=jar "-DlocalRepositoryPath=$fullFolderPath" -DgeneratePom=false -DpomFile=pom.xml -DcreateChecksum=true
 
 # Optional JavaDocs
 if [ "$kotlinDocsJar" = "true" ]; then
@@ -76,37 +105,6 @@ if [ "$sourceJar" = "true" ]; then
   mvn install:install-file "-DgroupId=$groupId" "-DartifactId=$artifactId" "-Dversion=$version" "-Dfile=$sourcesJarFile" -Dpackaging=jar "-DlocalRepositoryPath=$fullFolderPath" -DgeneratePom=false -DcreateChecksum=true -Dclassifier=sources
 fi
 
-# Installing POM file
-# Generate pom.xml
-echo '<?xml version="1.0" encoding="UTF-8"?>' > pom.xml
-echo '<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"' >> pom.xml
-echo '    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">' >> pom.xml
-echo "  <modelVersion>4.0.0</modelVersion>" >> pom.xml
-echo "  <groupId>$groupId</groupId>" >> pom.xml
-echo "  <artifactId>sample-hello-world</artifactId>" >> pom.xml
-echo "  <version>$version</version>" >> pom.xml
-echo "  <name>$projectName</name>" >> pom.xml
-echo "  <description>$projectDescription</description>" >> pom.xml
-echo "  <url>$projectUrl</url>" >> pom.xml
-echo "  <licenses>" >> pom.xml
-echo "    <license>" >> pom.xml
-echo "      <name>$licenceName</name>" >> pom.xml
-echo "      <url>$licenceUrl</url>" >> pom.xml
-echo "    </license>" >> pom.xml
-echo "  </licenses>" >> pom.xml
-echo "  <developers>" >> pom.xml
-echo "    <developer>" >> pom.xml
-echo "      <name>$developerName</name>" >> pom.xml
-echo "      <url>$developerUrl</url>" >> pom.xml
-echo "    </developer>" >> pom.xml
-echo "  </developers>" >> pom.xml
-echo "  <scm>" >> pom.xml
-echo "    <connection>$scmConnection</connection>" >> pom.xml
-echo "    <developerConnection>$scmConnection</developerConnection>" >> pom.xml
-echo "    <url>$scmUrl</url>" >> pom.xml
-echo "  </scm>" >> pom.xml
-echo "</project>" >> pom.xml
-
 # Optional Signing
 if [ -n "$signingKey" ]; then
   echo $signingKey > raw.txt
@@ -116,16 +114,6 @@ if [ -n "$signingKey" ]; then
   gpg --list-keys
   find $installFolder -maxdepth 100 -not -name "*.asc" -type f -exec sh -c 'echo $1 | gpg -ab --batch --yes --passphrase-fd 0 --pinentry-mode loopback $0 && echo Signed $0.' {} $signingPassword ';'
 fi
-
-echo "Generating pom..."
-mv pom.xml $artifactFolderPath/$artifactId-$version.pom
-sha1sum $artifactFolderPath/$artifactId-$version.pom | cut -f 1 -d " " > $artifactFolderPath/$artifactId-$version.pom.sha1
-md5sum $artifactFolderPath/$artifactId-$version.pom | cut -f 1 -d " " > $artifactFolderPath/$artifactId-$version.pom.md5
-echo $(md5sum $artifactFolderPath/$artifactId-$version.pom)
-cat $artifactFolderPath/$artifactId-$version.pom.md5
-echo $(sha1sum $artifactFolderPath/$artifactId-$version.pom)
-cat  $artifactFolderPath/$artifactId-$version.pom.sha1
-echo "Completed."
 
 # Push the changes to Github
 cd master
