@@ -30,11 +30,12 @@ mv $parameterMainJar $mainJarFile
 
 # Generate full folder path
 fullFolderPath=master/docs/repository/$folderPath
+artifactFolderPath=$fullFolderPath/$(echo "$groupId" | sed -e "s~\.~/~g")/$artifactId/$version
 
 # Setup the repository
 git config --global user.email "repository-m2-deployment-agent@email.com" && git config --global user.name "Repository M2 Deployment Agent"
 git clone "https://$githubUserName:$githubAccessToken@github.com/$githubUserName/$githubRepository.git" master
-mkdir -p $fullFolderPath
+mkdir -p $artifactFolderPath
 
 # Generate pom.xml
 echo '<?xml version="1.0" encoding="UTF-8"?>' > pom.xml
@@ -65,10 +66,13 @@ echo "    <developerConnection>$scmConnection</developerConnection>" >> pom.xml
 echo "    <url>$scmUrl</url>" >> pom.xml
 echo "  </scm>" >> pom.xml
 echo "</project>" >> pom.xml
+mv pom.xml $artifactFolderPath/$artifactId-$version.pom
+sha1sum $artifactFolderPath/$artifactId-$version.pom | cut -f 1 -d " " > $artifactFolderPath/$artifactId-$version.pom.sha1
+md5sum $artifactFolderPath/$artifactId-$version.pom | cut -f 1 -d " " > $artifactFolderPath/$artifactId-$version.pom.md5
 
 # Install the files into the repository
 export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
-mvn install:install-file "-DgroupId=$groupId" "-DartifactId=$artifactId" "-Dversion=$version" "-Dfile=$mainJarFile" -Dpackaging=jar "-DlocalRepositoryPath=$fullFolderPath" -DgeneratePom=false -DpomFile=pom.xml -DcreateChecksum=true
+mvn install:install-file "-DgroupId=$groupId" "-DartifactId=$artifactId" "-Dversion=$version" "-Dfile=$mainJarFile" -Dpackaging=jar "-DlocalRepositoryPath=$fullFolderPath" -DgeneratePom=false -DcreateChecksum=true
 
 # Optional JavaDocs
 if [ "$kotlinDocsJar" = "true" ]; then
