@@ -51,9 +51,9 @@ jobs:
           # Optional - Directories containing java or kotlin source files. Separated by ; to specify multiple directories.
           source-directories: 'sample-hello-world/src/main/java'
           # Optional - If true and specifying source directories, a javadocs jar file containing kotlin docs gets generated.
-          generate-kotlin-docs-jar: true
+          generate-kotlin-docs-jar: false
           # Optional - If true and specifying source directories, a sources jar file containing source files gets generated.
-          generate-sources-jar: true
+          generate-sources-jar: false
           # Optional - Value for pom.xml.
           project-name: 'Sample HelloWorld'
           # Optional - Value for pom.xml.
