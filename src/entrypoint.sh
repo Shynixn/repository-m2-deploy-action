@@ -105,15 +105,20 @@ if [ "$sourceJar" = "true" ]; then
   mvn install:install-file "-DgroupId=$groupId" "-DartifactId=$artifactId" "-Dversion=$version" "-Dfile=$sourcesJarFile" -Dpackaging=jar "-DlocalRepositoryPath=$fullFolderPath" -DgeneratePom=false -DcreateChecksum=true -Dclassifier=sources
 fi
 
+installFolder=$fullFolderPath/$(echo "$groupId" | sed -e "s~\.~/~g")/$artifactId/$version
+
 # Optional Signing
 if [ -n "$signingKey" ]; then
   echo $signingKey > raw.txt
   base64 --decode raw.txt > secret.asc
-  installFolder=$fullFolderPath/$(echo "$groupId" | sed -e "s~\.~/~g")/$artifactId/$version
   gpg --batch --import --armor secret.asc
   gpg --list-keys
   find $installFolder -maxdepth 100 -not -name "*.asc" -type f -exec sh -c 'echo $1 | gpg -ab --batch --yes --passphrase-fd 0 --pinentry-mode loopback $0 && echo Signed $0.' {} $signingPassword ';'
 fi
+
+# Generate badge json
+echo $installFolder
+echo "{ \"schemaVersion\": 1,\"label\": \"$artifactId\",\"message\": \"$version\",\"color\": \"orange\"}" > $installFolder/badge.json
 
 # Push the changes to Github
 cd master
