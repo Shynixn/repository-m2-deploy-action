@@ -117,8 +117,8 @@ if [ -n "$signingKey" ]; then
 fi
 
 # Generate badge json
-echo $installFolder
-echo "{ \"schemaVersion\": 1,\"label\": \"$artifactId\",\"message\": \"$version\",\"color\": \"orange\"}" > $installFolder/badge.json
+badgeFolder=$(dirname $installFolder)
+echo "{ \"schemaVersion\": 1,\"label\": \"$artifactId\",\"message\": \"$version\",\"color\": \"orange\"}" > $badgeFolder/badge.json
 
 # Push the changes to Github
 cd master
