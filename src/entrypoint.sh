@@ -122,6 +122,7 @@ echo "{ \"schemaVersion\": 1,\"label\": \"$artifactId\",\"message\": \"$version\
 
 # Push the changes to Github
 cd master
+git config --global --add safe.directory /github/workspace
 git add --all
 git commit --message "Deployment of artifact '$mainJarFile'."
 git push --quiet "https://$githubUserName:$githubAccessToken@github.com/$githubUserName/$githubRepository.git" HEAD:main
